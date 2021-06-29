@@ -6,7 +6,9 @@ from reportlab.pdfgen import canvas
 
 VERT_START_POINT = 750
 RIGHT_MARGIN = 30
-FONT_SIZE = 16
+TAB_STOP_X = 12
+# anything bigger than 24 is going to be a problem
+FONT_SIZE = 24
 LINE_HEIGHT_FACTOR = 1.3
 line_height = int(FONT_SIZE * LINE_HEIGHT_FACTOR)
 
@@ -20,7 +22,7 @@ def print_font_list(my_canvas, fonts):
         my_canvas.drawString(RIGHT_MARGIN, pos_y, font)
         # label font
         my_canvas.setFont("Courier", FONT_SIZE / 2)
-        my_canvas.drawString(RIGHT_MARGIN * 8, pos_y, font)
+        my_canvas.drawString(RIGHT_MARGIN * TAB_STOP_X, pos_y, font)
         pos_y -= line_height
 
 

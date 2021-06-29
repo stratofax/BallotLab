@@ -4,25 +4,19 @@ A Pythonic repo of PDF-related code, part of the OSET BallotStudio project
 
 ## Getting Started
 
-First, clone this repo into your a folder on your development computer. Then, at the command line, enter the following commands (Mac and Linux):
+First, clone this repo into your a folder on your development computer. Then, follow these steps to set up your development environment: [How to set up a perfect Python project](https://sourcery.ai/blog/python-best-practices/)
+
+TL;DR: here's a summary listing of the bash commands:
 
 ```bash
 cd [vour/repo/directory]
-# create a virtual environment
-python3 -m venv venv
-# activate the virtual environment
-# note that if you're using another shell, besides bash,
-# use a shell specific script, like "activate.csh" or "activate.fish"
-source venv/bin/activate
-```
-
-These commands might be slightly different if you're using Windows or a shell besides bash.
-
-If you created and activated your virtual environment, your command prompt should change to show you this.
-
-Now, you can install the Python dependencies you need:
-
-```bash
-# Install PDFMiner to extract PDF data
-python -m pip install pdfminer.six
+# use pipx to install ensurepaht and pipenv
+python3 -m pip install --user pipx
+python3 -m pipx ensurepath
+pipx install pipenv
+# install development tools
+pipenv install black isort --dev
+pipenv install flake8 --dev
+pipenv install mypy --dev
+pipenv install pytest pytest-cov --dev
 ```

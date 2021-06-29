@@ -4,6 +4,9 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
+"pdfminer.six" = "*"
+reportlab = "*"
+pillow = "*"
 
 [dev-packages]
 black = "*"
@@ -15,3 +18,6 @@ pytest-cov = "*"
 
 [requires]
 python_version = "3.9"
+
+[pipenv]
+allow_prereleases = true

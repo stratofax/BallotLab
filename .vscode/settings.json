@@ -4,5 +4,6 @@
     "python.testing.pytestArgs": [],
     "python.testing.unittestEnabled": false,
     "python.testing.nosetestsEnabled": false,
-    "python.testing.pytestEnabled": true
+    "python.testing.pytestEnabled": true,
+    "python.defaultIntepreterPath": "/Users/neil/.local/share/virtualenvs/BallotLab-lNvEG0Em/bin/python"
 }

@@ -7,6 +7,7 @@ name = "pypi"
 "pdfminer.six" = "*"
 reportlab = "*"
 pillow = "*"
+lxml = "*"
 
 [dev-packages]
 black = "*"

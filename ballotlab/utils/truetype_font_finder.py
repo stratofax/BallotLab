@@ -1,5 +1,5 @@
 # truetype_font_finder.py
-from file_tools import FileTools
+from files import FileTools
 import os
 
 
@@ -8,8 +8,8 @@ def ttf_font_finder(font_family, rel_font_path):
     # determine the path to the font files
     # "getsourcefile" method works across platforms & all execution environments
     ftools = FileTools()
-    module_dir = ftools.module_dir
-    fonts_folder = os.path.join(module_dir, rel_font_path, font_family)
+    package_root = ftools.package_root
+    fonts_folder = os.path.join(package_root, rel_font_path, font_family)
 
     # does the font directory even exist?
     try:

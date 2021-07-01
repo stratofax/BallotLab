@@ -1,4 +1,4 @@
-from file_tools import FileTools
+from utils.files import FileTools
 from page_layout import PageLayout
 from reportlab.lib import utils
 from reportlab.platypus import Paragraph, Image
@@ -97,8 +97,8 @@ warning_style.textColor = cyan
 
 rel_img_path = "assets/img"
 ftools = FileTools()
-module_dir = ftools.module_dir
-img_folder = os.path.join(module_dir, rel_img_path)
+package_root = ftools.package_root
+img_folder = os.path.join(package_root, rel_img_path)
 fill_bubbles_img = "filled_bubble.png"
 write_in_img = "writein.png"
 
@@ -137,6 +137,7 @@ class Instructions:
     instruction_list.append(write_img)
     instruction_list.append(Paragraph(write_in_text, normal))
 
-    # instruction_list.append(Paragraph(turn_in_head, h2))
-    # instruction_list.append(Paragraph(turn_in_text, normal))
-    # instruction_list.append(Paragraph(turn_in_warn, normal))
+
+if __name__ == "__main__":
+    instruct = Instructions()
+    print(instruct.instruction_list)

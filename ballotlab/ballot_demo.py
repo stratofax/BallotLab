@@ -9,17 +9,16 @@ from reportlab.pdfgen.canvas import Canvas
 from reportlab.platypus import Paragraph, Frame
 
 
-# 1 = True, 0 = FALSE
-SHOW_BOUNDARY = 0
-
-p_layout = PageLayout()
-margin = p_layout.margin
-c_width = p_layout.col_width
-c_height = p_layout.col_height
-c_space = p_layout.col_space
-
-
 def ballot_demo():
+    # 1 = True, 0 = FALSE
+    SHOW_BOUNDARY = 1
+
+    p_layout = PageLayout()
+    margin = p_layout.margin
+    c_width = p_layout.col_width
+    c_height = p_layout.col_height
+    c_space = p_layout.col_space
+
     ballot_canvas = Canvas("ballot_demo.pdf", pagesize=letter)
     inst = Instructions
 

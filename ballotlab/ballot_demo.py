@@ -1,7 +1,7 @@
 # ballot_demo.py
 
 from instructions import Instructions
-import page_layout
+from page_layout import PageLayout
 from reportlab.lib.pagesizes import letter
 from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.lib.units import inch
@@ -13,10 +13,10 @@ def ballot_demo():
     # 1 = True, 0 = FALSE
     SHOW_BOUNDARY = 1
 
-    margin = page_layout["margin"]
-    c_width = page_layout["col_width"]
-    c_height = page_layout["col_height"]
-    c_space = page_layout["col_space"]
+    margin = PageLayout.margin
+    c_width = PageLayout.col_width
+    c_height = PageLayout.col_height
+    c_space = PageLayout.col_space
 
     ballot_canvas = Canvas("ballot_demo.pdf", pagesize=letter)
     inst = Instructions

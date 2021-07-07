@@ -10,6 +10,7 @@ import os
 # these variables are private, hardcoded for now
 # may be read from a settings file later?
 
+col_width = PageLayout.col_width
 instruct_head = "Instructions"
 
 fill_head = "Making Selections"
@@ -107,18 +108,26 @@ img = utils.ImageReader(fill_bubbles)
 img_width, img_height = img.getSize()
 aspect = img_height / float(img_width)
 
-p_layout = PageLayout()
-target_width = p_layout.col_width * inch
+i_width = (col_width * inch) - (border_pad * 2)
+i_height = i_width * aspect
 
-fill_img = Image(fill_bubbles, width=target_width, height=(target_width * aspect))
-fill_img.hAlign = "CENTER"
+# <img src="snakehead.jpg" width="50" height="50"/> in the
+#     middle of our text'''
+
+graf_text = '<p>{}</p><p><img src="{}" width="{}" height="{}" valign="text-bottom"/></p>'.format(
+    fill_head, fill_bubbles, i_width, i_height
+)
+# fill_img = Image(fill_bubbles, width=target_width, height=(target_width * aspect))
+# fill_img.hAlign = "CENTER"
+fill_img = Paragraph(graf_text)
+
 
 write_in = os.path.join(img_folder, write_in_img)
 img = utils.ImageReader(write_in)
 img_width, img_height = img.getSize()
 aspect = img_height / float(img_width)
 
-write_img = Image(write_in, width=target_width, height=(target_width * aspect))
+write_img = Image(write_in, width=i_width, height=(i_width * aspect))
 write_img.hAlign = "CENTER"
 
 
@@ -129,8 +138,8 @@ class Instructions:
     """
 
     instruction_list = [Paragraph(instruct_head, h1)]
-    instruction_list.append(Paragraph(fill_head, h2))
-    instruction_list.append(fill_img)
+    instruction_list.append(Paragraph(graf_text, h2))
+    # instruction_list.append(fill_img, h2)
     instruction_list.append(Paragraph(fill_txt, normal))
     instruction_list.append(Paragraph(fill_warn_txt, warning_style))
     instruction_list.append(Paragraph(write_in_head, h2))

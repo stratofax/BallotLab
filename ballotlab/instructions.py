@@ -1,3 +1,6 @@
+# instructions.py
+# Build the ballot instructions
+
 from utils.files import FileTools
 from page_layout import PageLayout
 from reportlab.lib import utils
@@ -7,95 +10,132 @@ from reportlab.lib.colors import PCMYKColor
 from reportlab.lib.units import inch
 import os
 
-# these variables are private, hardcoded for now
+# these variables are hardcoded for now
 # may be read from a settings file later?
 
 col_width = PageLayout.col_width
-instruct_head = "Instructions"
-
-fill_head = "Making Selections"
-
-fill_txt = (
-    "Fill in the oval to the left of "
-    "the name of your choice. "
-    "You must blacken the oval "
-    "completely, and do not make "
-    "any marks outside of the "
-    "oval. You do not have to vote "
-    "in every race."
-)
-
-fill_warn_txt = (
-    "<bold>Do not cross out or "
-    "erase, or your vote may "
-    "not count. If you make a "
-    "mistake or a stray mark, "
-    "ask for a new ballot from "
-    "the poll workers.</bold>"
-)
-
-write_in_head = "Optional write-in"
-
-write_in_text = (
-    "To add a candidate, fill in "
-    "the oval to the left of “or "
-    "write-in” and print the name "
-    "clearly on the dotted line."
-)
-
-turn_in_head = "Turning in the ballot"
-
-turn_in_text = (
-    "Insert the completed ballot "
-    "into the ballot sleeve. Hand "
-    "in the ballot to be counted."
-)
-turn_in_warn = "Do not fold the ballot."
 
 
-styles = getSampleStyleSheet()
-normal = styles["Normal"]
-warning_style = styles["BodyText"]
-h1 = styles["Heading1"]
-h2 = styles["Heading2"]
+def build_instruction_list(i_list):
+    instruct_head = "Instructions"
+    fill_head = "Making Selections"
+    fill_txt = (
+        "Fill in the oval to the left of "
+        "the name of your choice. "
+        "You must blacken the oval "
+        "completely, and do not make "
+        "any marks outside of the "
+        "oval. You do not have to vote "
+        "in every race."
+    )
+    fill_warn_txt = (
+        "Do not cross out or "
+        "erase, or your vote may "
+        "not count. If you make a "
+        "mistake or a stray mark, "
+        "ask for a new ballot from "
+        "the poll workers."
+    )
+    write_in_head = "Optional write-in"
+    write_in_text = (
+        "To add a candidate, fill in "
+        "the oval to the left of “or "
+        "write-in” and print the name "
+        "clearly on the dotted line."
+    )
+    turn_in_head = "Turning in the ballot"
+    turn_in_text = (
+        "Insert the completed ballot "
+        "into the ballot sleeve. Hand "
+        "in the ballot to be counted."
+    )
+    turn_in_warn = "Do not fold the ballot."
+
+    i_list = [Paragraph(instruct_head, h1)]
+    i_list.append(Paragraph(graf_text, h2))
+    i_list.append(Paragraph(fill_txt, normal))
+    i_list.append(Paragraph(fill_warn_txt, warn_text))
+    i_list.append(Paragraph(write_in_head, h2))
+    i_list.append(write_img)
+    i_list.append(Paragraph(write_in_text, normal))
 
 
-# modify default styles to fit spec
-cyan = PCMYKColor(100, 0, 0, 0)
-white = PCMYKColor(0, 0, 0, 0)
-fsize = 12
-border_pad = 6
-# h1 (Heading 1)
+# define styles
+# # set up the constants
 # 100% process cyan
+dark_bg = PCMYKColor(100, 0, 0, 0)
+# light cyan
+light_bg = PCMYKColor(10, 0, 0, 0)
+white = PCMYKColor(0, 0, 0, 0)
+black = PCMYKColor(0, 0, 0, 100)
+font_size = 12
+border_pad = 6
 
-h1.backColor = cyan
-h1.borderColor = cyan
-h1.textColor = white
-h1.borderPadding = border_pad
-h1.fontSize = fsize + 2
-# h2 (Heading 2)
-light_cyan = PCMYKColor(10, 0, 0, 0)
-h2.backColor = light_cyan
-h2.borderColor = light_cyan
-h2.borderPadding = border_pad
-h2.fontSize = fsize
-# Normal
-normal.backColor = light_cyan
-normal.borderColor = light_cyan
-normal.borderColor = light_cyan
-normal.borderPadding = border_pad
-normal.leading = 15
-normal.fontSize = fsize
-# Warning style inherits normal styles
-warning_style.backColor = light_cyan
-warning_style.borderColor = light_cyan
-warning_style.borderColor = light_cyan
-warning_style.borderPadding = border_pad
-warning_style.leading = 15
-warning_style.fontName = "Helvetica-Bold"
-warning_style.fontSize = fsize
-warning_style.textColor = cyan
 
+def define_custom_style(
+    style,
+    bg_color,
+    border_pd=border_pad,
+    font_sz=font_size,
+    txt_color=black,
+    font_n="Helvetica",
+    line_space=font_size + 1,
+):
+    style.backColor = bg_color
+    style.borderColor = bg_color
+    style.borderPadding = border_pd
+    style.fontSize = font_sz
+    style.textColor = txt_color
+    style.fontName = font_n
+    style.leading = line_space
+
+
+def get_styles():
+    """customize styles for the instructions section"""
+    styles = getSampleStyleSheet()
+    normal = styles["Normal"]
+    warn_text = styles["BodyText"]
+    h1 = styles["Heading1"]
+    h2 = styles["Heading2"]
+
+    # modify default styles to fit spec
+    # h1 (Heading 1)
+
+    define_custom_style(h1, dark_bg, border_pad, font_size + 2, white)
+    define_custom_style(h2, light_bg)
+    define_custom_style(normal, light_bg)
+    define_custom_style(
+        warn_text, light_bg, border_pad, font_size, dark_bg, "Helvetica-Bold", 15
+    )
+
+    # h1.backColor = cyan
+    # h1.borderColor = cyan
+    # h1.borderPadding = border_pad
+    # h1.fontSize = font_size + 2
+    # h1.textColor = white
+    # h2 (Heading 2)
+    # h2.backColor = light_cyan
+    # h2.borderColor = light_cyan
+    # h2.borderPadding = border_pad
+    # h2.fontSize = font_size
+    # Normal
+    # normal.backColor = light_cyan
+    # normal.borderColor = light_cyan
+    # normal.borderPadding = border_pad
+    # normal.leading = 15
+    # normal.fontSize = font_size
+    # Warning style inherits normal styles
+    # warn_text.backColor = light_cyan
+    # warn_text.borderColor = light_cyan
+    # warn_text.borderColor = light_cyan
+    # warn_text.borderPadding = border_pad
+    # warn_text.leading = 15
+    # warn_text.fontName = "Helvetica-Bold"
+    # warn_text.fontSize = font_size
+    # warn_text.textColor = cyan
+
+
+# get image files
 rel_img_path = "assets/img"
 ftools = FileTools()
 package_root = ftools.package_root
@@ -136,15 +176,6 @@ class Instructions:
     Ballot Instructions class encapsulates static
     instructional text and instructional graphics
     """
-
-    instruction_list = [Paragraph(instruct_head, h1)]
-    instruction_list.append(Paragraph(graf_text, h2))
-    # instruction_list.append(fill_img, h2)
-    instruction_list.append(Paragraph(fill_txt, normal))
-    instruction_list.append(Paragraph(fill_warn_txt, warning_style))
-    instruction_list.append(Paragraph(write_in_head, h2))
-    instruction_list.append(write_img)
-    instruction_list.append(Paragraph(write_in_text, normal))
 
 
 if __name__ == "__main__":

@@ -1,50 +1,12 @@
 # instructions.py
 # Build the ballot instructions
 
-from utils.files import FileTools
+
 from page_layout import PageLayout
-from reportlab.lib import utils
-from reportlab.platypus import Paragraph, Image
+from images import EmbeddedImage
+from reportlab.platypus import Paragraph
 from reportlab.lib.styles import getSampleStyleSheet
-from reportlab.lib.colors import PCMYKColor
 from reportlab.lib.units import inch
-import os
-
-
-# get image files
-rel_img_path = "assets/img"
-ftools = FileTools()
-package_root = ftools.package_root
-img_folder = os.path.join(package_root, rel_img_path)
-fill_bubbles_img = "filled_bubble.png"
-write_in_img = "writein.png"
-
-fill_bubbles = os.path.join(img_folder, fill_bubbles_img)
-img = utils.ImageReader(fill_bubbles)
-img_width, img_height = img.getSize()
-aspect = img_height / float(img_width)
-
-# i_width = (col_width * inch) - (border_pad * 2)
-# i_height = i_width * aspect
-
-# <img src="snakehead.jpg" width="50" height="50"/> in the
-#     middle of our text'''
-
-# graf_text = '<p>{}</p><br /><br /><br /><br /><br /><p><img src="{}" width="{}" height="{}" valign="text-bottom"/></p>'.format(
-#     fill_head, fill_bubbles, i_width, i_height
-# )
-# fill_img = Image(fill_bubbles, width=target_width, height=(target_width * aspect))
-# fill_img.hAlign = "CENTER"
-# fill_img = Paragraph(graf_text)
-
-
-write_in = os.path.join(img_folder, write_in_img)
-img = utils.ImageReader(write_in)
-img_width, img_height = img.getSize()
-aspect = img_height / float(img_width)
-
-# write_img = Image(write_in, width=i_width, height=(i_width * aspect))
-# write_img.hAlign = "CENTER"
 
 
 class Instructions:
@@ -57,31 +19,37 @@ class Instructions:
     # may be read from a settings file later?
     def __init__(self):
         self.instruction_list = []
-        col_width = PageLayout.col_width
-
         # define styles
-        # # set up the constants
-        # define PCMYKColor values
-        # 100% process cyan
+        # set up the constants
+        # define CMYKColor values
+        # Use floats! (0 - 1) Didn't work with values 0 - 100
+        # 100% cyan
         dark = (1, 0, 0, 0)
         # light cyan
-        light = (0.2, 0, 0, 0)
+        light = (0.25, 0, 0, 0)
         white = (0, 0, 0, 0)
         black = (0, 0, 0, 1)
-        # font info
+
+        # font family info
         font_normal = "Helvetica"
         font_bold = "Helvetica-Bold"
         font_size = 12
         normal_lead = 15
-        head_lead = 22
+        head_lead = 20
         border_pad = 6
 
+        # image dimensions
+        col_width = PageLayout.col_width
+        image_width = (col_width * inch) - (border_pad * 2)
+
+        # start with the sample styles
         styles = getSampleStyleSheet()
         normal = styles["Normal"]
         warn_text = styles["BodyText"]
         h1 = styles["Heading1"]
         h2 = styles["Heading2"]
 
+        # customize only what's different from the samples
         def define_custom_style(
             style,
             bg_color,
@@ -100,6 +68,7 @@ class Instructions:
             style.leading = line_space
 
         def build_instruction_list():
+            """Build a list of paragraph flowables for the ballot instructions section"""
             instruct_head = "Instructions"
             fill_head = "Making Selections"
             fill_txt = (
@@ -134,7 +103,15 @@ class Instructions:
             )
             turn_in_warn = "Do not fold the ballot."
 
+            # get images
+            image1 = EmbeddedImage("filled_bubble.png", image_width)
+            image1_graf = image1.embed_text
+
+            fill_bubbles_img = "filled_bubble.png"
+            write_in_img = "writein.png"
+
             self.instruction_list = [Paragraph(instruct_head, h1)]
+            self.instruction_list.append(Paragraph(image1_graf, normal))
             self.instruction_list.append(Paragraph(fill_head, h2))
             self.instruction_list.append(Paragraph(fill_txt, normal))
             self.instruction_list.append(Paragraph(fill_warn_txt, warn_text))
@@ -142,6 +119,7 @@ class Instructions:
             # self.self.instruction_list.append(write_img)
             self.instruction_list.append(Paragraph(write_in_text, normal))
 
+        # define our custom styles
         define_custom_style(
             h1, dark, border_pad, font_size + 2, white, font_bold, head_lead
         )
@@ -154,7 +132,7 @@ class Instructions:
         define_custom_style(
             warn_text, light, border_pad, font_size, dark, font_bold, normal_lead
         )
-
+        # build the list, an attribute of the Instructions object
         build_instruction_list()
 
 

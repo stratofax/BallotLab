@@ -17,14 +17,12 @@ def ballot_demo():
     c_width = PageLayout.col_width
     c_height = PageLayout.col_height
     c_space = PageLayout.col_space
-
-    ballot_canvas = Canvas("ballot_demo.pdf", pagesize=letter)
-    inst = Instructions
-
     styles = getSampleStyleSheet()
     normal = styles["Normal"]
     h1 = styles["Heading1"]
 
+    ballot_canvas = Canvas("ballot_demo.pdf", pagesize=letter)
+    inst = Instructions()
     left_column = inst.instruction_list
 
     mid_column = [Paragraph("Contest #1", h1)]

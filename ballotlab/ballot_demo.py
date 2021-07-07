@@ -1,5 +1,6 @@
 # ballot_demo.py
 
+from reportlab.lib.colors import CMYKColor, PCMYKColor, cmyk2rgb
 from instructions import Instructions
 from page_layout import PageLayout
 from reportlab.lib.pagesizes import letter
@@ -21,7 +22,7 @@ def ballot_demo():
     normal = styles["Normal"]
     h1 = styles["Heading1"]
 
-    ballot_canvas = Canvas("ballot_demo.pdf", pagesize=letter)
+    ballot_canvas = Canvas("ballot_demo.pdf", pagesize=letter, enforceColorSpace="CMYK")
     inst = Instructions()
     left_column = inst.instruction_list
 

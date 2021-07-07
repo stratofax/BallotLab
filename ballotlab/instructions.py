@@ -61,13 +61,19 @@ class Instructions:
 
         # define styles
         # # set up the constants
+        # define PCMYKColor values
         # 100% process cyan
-        dark = PCMYKColor(100, 0, 0, 0)
+        dark = (1, 0, 0, 0)
         # light cyan
-        light = PCMYKColor(10, 0, 0, 0)
-        white = PCMYKColor(0, 0, 0, 0)
-        black = PCMYKColor(0, 0, 0, 100)
+        light = (0.2, 0, 0, 0)
+        white = (0, 0, 0, 0)
+        black = (0, 0, 0, 1)
+        # font info
+        font_normal = "Helvetica"
+        font_bold = "Helvetica-Bold"
         font_size = 12
+        normal_lead = 15
+        head_lead = 22
         border_pad = 6
 
         styles = getSampleStyleSheet()
@@ -82,7 +88,7 @@ class Instructions:
             border_pd=border_pad,
             font_sz=font_size,
             txt_color=black,
-            font_n="Helvetica",
+            font_n=font_normal,
             line_space=font_size + 1,
         ):
             style.backColor = bg_color
@@ -137,14 +143,16 @@ class Instructions:
             self.instruction_list.append(Paragraph(write_in_text, normal))
 
         define_custom_style(
-            h1, dark, border_pad, font_size + 2, white, "Helvetica-Bold", 22
+            h1, dark, border_pad, font_size + 2, white, font_bold, head_lead
         )
         define_custom_style(
-            h2, light, border_pad, font_size + 2, black, "Helvetica-Bold", 22
+            h2, light, border_pad, font_size, black, font_bold, head_lead
         )
-        define_custom_style(normal, light)
         define_custom_style(
-            warn_text, light, border_pad, font_size, dark, "Helvetica-Bold", 15
+            normal, light, border_pad, font_size, black, font_normal, normal_lead
+        )
+        define_custom_style(
+            warn_text, light, border_pad, font_size, dark, font_bold, normal_lead
         )
 
         build_instruction_list()

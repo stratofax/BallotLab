@@ -114,7 +114,7 @@ i_height = i_width * aspect
 # <img src="snakehead.jpg" width="50" height="50"/> in the
 #     middle of our text'''
 
-graf_text = '<p>{}</p><p><img src="{}" width="{}" height="{}" valign="text-bottom"/></p>'.format(
+graf_text = '<p>{}</p><br /><br /><br /><br /><br /><p><img src="{}" width="{}" height="{}" valign="text-bottom"/></p>'.format(
     fill_head, fill_bubbles, i_width, i_height
 )
 # fill_img = Image(fill_bubbles, width=target_width, height=(target_width * aspect))

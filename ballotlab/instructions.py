@@ -2,6 +2,7 @@
 # Build the ballot instructions
 
 
+from reportlab.platypus.flowables import Spacer
 from page_layout import PageLayout
 from images import EmbeddedImage
 from reportlab.platypus import Paragraph
@@ -26,7 +27,7 @@ class Instructions:
         # 100% cyan
         dark = (1, 0, 0, 0)
         # light cyan
-        light = (0.25, 0, 0, 0)
+        light = (0.1, 0, 0, 0)
         white = (0, 0, 0, 0)
         black = (0, 0, 0, 1)
 
@@ -35,12 +36,12 @@ class Instructions:
         font_bold = "Helvetica-Bold"
         font_size = 12
         normal_lead = 15
-        head_lead = 20
-        border_pad = 6
+        head_lead = 22
+        border_pad = 5  # was 6
 
         # image dimensions
         col_width = PageLayout.col_width
-        image_width = (col_width * inch) - (border_pad * 2)
+        image_width = (col_width * inch) - (border_pad * 3)
 
         # start with the sample styles
         styles = getSampleStyleSheet()
@@ -66,6 +67,7 @@ class Instructions:
             style.textColor = txt_color
             style.fontName = font_n
             style.leading = line_space
+            # style.leftIndent = 4
 
         def build_instruction_list():
             """Build a list of paragraph flowables for the ballot instructions section"""
@@ -106,6 +108,8 @@ class Instructions:
             # get images
             image1 = EmbeddedImage("filled_bubble.png", image_width)
             image1_graf = image1.embed_text
+            image2 = EmbeddedImage("writein.png", image_width)
+            image2_graf = image2.embed_text
 
             fill_bubbles_img = "filled_bubble.png"
             write_in_img = "writein.png"
@@ -115,8 +119,9 @@ class Instructions:
             self.instruction_list.append(Paragraph(fill_head, h2))
             self.instruction_list.append(Paragraph(fill_txt, normal))
             self.instruction_list.append(Paragraph(fill_warn_txt, warn_text))
+            self.instruction_list.append(Spacer(0, border_pad * 3))
+            self.instruction_list.append(Paragraph(image2_graf, normal))
             self.instruction_list.append(Paragraph(write_in_head, h2))
-            # self.self.instruction_list.append(write_img)
             self.instruction_list.append(Paragraph(write_in_text, normal))
 
         # define our custom styles
@@ -124,7 +129,7 @@ class Instructions:
             h1, dark, border_pad, font_size + 2, white, font_bold, head_lead
         )
         define_custom_style(
-            h2, light, border_pad, font_size, black, font_bold, head_lead
+            h2, light, border_pad, font_size, black, font_bold, normal_lead
         )
         define_custom_style(
             normal, light, border_pad, font_size, black, font_normal, normal_lead

@@ -12,8 +12,7 @@ from reportlab.platypus import Paragraph, Frame
 
 def ballot_demo():
     # 1 = True, 0 = FALSE
-    SHOW_BOUNDARY = 1
-
+    SHOW_BOUNDARY = 0
     margin = PageLayout.margin
     c_width = PageLayout.col_width
     c_height = PageLayout.col_height

@@ -26,8 +26,15 @@ class EmbeddedImage:
         aspect = img_height / float(img_width)
         # resize based on the new width
         self.new_height = round(new_width * aspect)
-        self.embed_text = '<p><img src="{}" width="{}" height="{}" /></p>'.format(
-            self.image_full_path, new_width, self.new_height
+        self.embed_text = (
+            '<para leading="{}" spaceBefore="0" spaceAfter="8"><br />'
+            '<img src="{}" width="{}" height="{} "'
+            'valign="middle"/></para>'.format(
+                round(self.new_height / 2),
+                self.image_full_path,
+                new_width,
+                self.new_height,
+            )
         )
 
     def file_check(self, ftools):

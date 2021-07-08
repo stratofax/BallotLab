@@ -36,12 +36,12 @@ class Instructions:
         font_bold = "Helvetica-Bold"
         font_size = 12
         normal_lead = 15
-        head_lead = 22
-        border_pad = 5  # was 6
+        head_lead = 20
+        border_pad = 8
 
         # image dimensions
         col_width = PageLayout.col_width
-        image_width = (col_width * inch) - (border_pad * 3)
+        image_width = (col_width * inch) - (border_pad * 2)
 
         # start with the sample styles
         styles = getSampleStyleSheet()
@@ -115,6 +115,7 @@ class Instructions:
             write_in_img = "writein.png"
 
             self.instruction_list = [Paragraph(instruct_head, h1)]
+            self.instruction_list.append(Spacer(0, border_pad * 2))
             self.instruction_list.append(Paragraph(image1_graf, normal))
             self.instruction_list.append(Paragraph(fill_head, h2))
             self.instruction_list.append(Paragraph(fill_txt, normal))
@@ -129,7 +130,7 @@ class Instructions:
             h1, dark, border_pad, font_size + 2, white, font_bold, head_lead
         )
         define_custom_style(
-            h2, light, border_pad, font_size, black, font_bold, normal_lead
+            h2, light, border_pad, font_size, black, font_bold, normal_lead + 2
         )
         define_custom_style(
             normal, light, border_pad, font_size, black, font_normal, normal_lead

@@ -27,7 +27,7 @@ class EmbeddedImage:
         # resize based on the new width
         self.new_height = round(new_width * aspect)
         self.embed_text = (
-            '<para leading="{}" spaceBefore="0" spaceAfter="8"><br />'
+            '<para leading="{}" spaceBefore="0" spaceAfter="16"><br />'
             '<img src="{}" width="{}" height="{} "'
             'valign="middle"/></para>'.format(
                 round(self.new_height / 2),

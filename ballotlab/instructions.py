@@ -110,15 +110,19 @@ class Instructions:
             image1_graf = image1.embed_text
             image2 = EmbeddedImage("writein.png", image_width)
             image2_graf = image2.embed_text
-
-            fill_bubbles_img = "filled_bubble.png"
-            write_in_img = "writein.png"
+            warn_width = 0.25 * inch
+            warn_icon = EmbeddedImage("warn_cyan.png", warn_width)
+            warn_icon_graf = warn_icon.embed_text
+            # fill_bubbles_img = "filled_bubble.png"
+            # write_in_img = "writein.png"
 
             self.instruction_list = [Paragraph(instruct_head, h1)]
             self.instruction_list.append(Spacer(0, border_pad * 2))
             self.instruction_list.append(Paragraph(image1_graf, normal))
             self.instruction_list.append(Paragraph(fill_head, h2))
             self.instruction_list.append(Paragraph(fill_txt, normal))
+            self.instruction_list.append(Spacer(0, border_pad))
+            self.instruction_list.append(Paragraph(warn_icon_graf, normal))
             self.instruction_list.append(Paragraph(fill_warn_txt, warn_text))
             self.instruction_list.append(Spacer(0, border_pad * 3))
             self.instruction_list.append(Paragraph(image2_graf, normal))

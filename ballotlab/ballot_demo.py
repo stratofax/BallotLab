@@ -8,6 +8,7 @@ from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.lib.units import inch
 from reportlab.pdfgen.canvas import Canvas
 from reportlab.platypus import Paragraph, Frame
+from datetime import datetime
 
 
 def ballot_demo():
@@ -20,8 +21,15 @@ def ballot_demo():
     styles = getSampleStyleSheet()
     normal = styles["Normal"]
     h1 = styles["Heading1"]
+    # create datestamp string for PDF
+    now = datetime.now()
+    date_time = now.strftime("%Y_%m_%dT%H%M%S")
 
-    ballot_canvas = Canvas("ballot_demo.pdf", pagesize=letter, enforceColorSpace="CMYK")
+    ballot_canvas = Canvas(
+        "pdfs/ballot_demo_{0}.pdf".format(date_time),
+        pagesize=letter,
+        enforceColorSpace="CMYK",
+    )
     inst = Instructions()
     left_column = inst.instruction_list
 

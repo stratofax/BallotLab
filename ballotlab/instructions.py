@@ -2,9 +2,9 @@
 # Build the ballot instructions
 
 
-from reportlab.platypus.flowables import Spacer
 from page_layout import PageLayout
 from images import EmbeddedImage
+from reportlab.platypus.flowables import Spacer
 from reportlab.platypus import Paragraph
 from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.lib.units import inch
@@ -49,7 +49,10 @@ class Instructions:
         h2 = styles["Heading2"]
 
         def build_instruction_list():
-            """Build a list of paragraph flowables for the ballot instructions section"""
+            """
+            Build a list of paragraph flowables for the
+            ballot instructions section
+            """
             instruct_head = "Instructions"
             fill_head = "Making Selections"
             fill_txt = (
@@ -92,21 +95,19 @@ class Instructions:
             warn_width = 0.25 * inch
             warn_icon = EmbeddedImage("warn_cyan.png", warn_width)
             warn_icon_graf = warn_icon.embed_text
-            # fill_bubbles_img = "filled_bubble.png"
-            # write_in_img = "writein.png"
 
             self.instruction_list = [
                 (Paragraph(instruct_head, h1)),
-                (Spacer(0, border_pad * 2)),
-                (Paragraph(image1_graf, normal)),
+                (Spacer(0, border_pad / 2)),
                 (Paragraph(fill_head, h2)),
+                (Paragraph(image1_graf, normal)),
                 (Paragraph(fill_txt, normal)),
                 (Spacer(0, border_pad)),
                 (Paragraph(warn_icon_graf, normal)),
                 (Paragraph(fill_warn_txt, warn_text)),
-                (Spacer(0, border_pad * 3)),
-                (Paragraph(image2_graf, normal)),
+                (Spacer(0, border_pad)),
                 (Paragraph(write_in_head, h2)),
+                (Paragraph(image2_graf, normal)),
                 (Paragraph(write_in_text, normal)),
             ]
 
@@ -115,7 +116,7 @@ class Instructions:
             h1, dark, border_pad, font_size + 2, white, font_bold, head_lead
         )
         PageLayout.define_custom_style(
-            h2, light, border_pad, font_size, black, font_bold, normal_lead + 2
+            h2, light, border_pad, font_size, black, font_bold, normal_lead
         )
         PageLayout.define_custom_style(
             normal, light, border_pad, font_size, black, font_normal, normal_lead

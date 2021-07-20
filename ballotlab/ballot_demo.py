@@ -1,6 +1,7 @@
 # ballot_demo.py
+# create a demo object with BallotLab classes
 
-from reportlab.lib.colors import CMYKColor, PCMYKColor, cmyk2rgb
+from contest import Contest
 from instructions import Instructions
 from page_layout import PageLayout
 from reportlab.lib.pagesizes import letter
@@ -35,12 +36,8 @@ def ballot_demo():
     left_column = inst.instruction_list
 
     # add a ballot contest to the second frame (colomn)
-    contest_title = "President and Vice-President of the United States"
-    contest_instruct = "Vote for 1 pair"
-    row_1 = [Paragraph(contest_title, h1)]
-    row_2 = [Paragraph(contest_instruct, normal)]
-    table_data = [row_1, row_2]
-    contest_table = Table(table_data)
+    contest_1 = Contest()
+    contest_table = contest_1.contest_table
     mid_column = [contest_table]
     # mid_column.append(Paragraph(contest_instruct, normal))
 

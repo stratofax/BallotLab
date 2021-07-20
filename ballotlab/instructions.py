@@ -21,23 +21,21 @@ class Instructions:
     def __init__(self):
         self.instruction_list = []
         # define styles
-        # set up the constants
-        # define CMYKColor values
-        # Use floats! (0 - 1) Didn't work with values 0 - 100
-        # 100% cyan
-        dark = (1, 0, 0, 0)
-        # light cyan
-        light = (0.1, 0, 0, 0)
-        white = (0, 0, 0, 0)
-        black = (0, 0, 0, 1)
+        # set up the page layout settings
+
+        # fill colors
+        dark = PageLayout.dark
+        light = PageLayout.light
+        white = PageLayout.white
+        black = PageLayout.black
 
         # font family info
-        font_normal = "Helvetica"
-        font_bold = "Helvetica-Bold"
-        font_size = 12
-        normal_lead = 15
-        head_lead = 20
-        border_pad = 8
+        font_normal = PageLayout.font_normal
+        font_bold = PageLayout.font_bold
+        font_size = PageLayout.font_size
+        normal_lead = PageLayout.normal_lead
+        head_lead = PageLayout.head_lead
+        border_pad = PageLayout.border_pad
 
         # image dimensions
         col_width = PageLayout.col_width
@@ -49,25 +47,6 @@ class Instructions:
         warn_text = styles["BodyText"]
         h1 = styles["Heading1"]
         h2 = styles["Heading2"]
-
-        # customize only what's different from the samples
-        def define_custom_style(
-            style,
-            bg_color,
-            border_pd=border_pad,
-            font_sz=font_size,
-            txt_color=black,
-            font_n=font_normal,
-            line_space=font_size + 1,
-        ):
-            style.backColor = bg_color
-            style.borderColor = bg_color
-            style.borderPadding = border_pd
-            style.fontSize = font_sz
-            style.textColor = txt_color
-            style.fontName = font_n
-            style.leading = line_space
-            # style.leftIndent = 4
 
         def build_instruction_list():
             """Build a list of paragraph flowables for the ballot instructions section"""
@@ -116,30 +95,32 @@ class Instructions:
             # fill_bubbles_img = "filled_bubble.png"
             # write_in_img = "writein.png"
 
-            self.instruction_list = [Paragraph(instruct_head, h1)]
-            self.instruction_list.append(Spacer(0, border_pad * 2))
-            self.instruction_list.append(Paragraph(image1_graf, normal))
-            self.instruction_list.append(Paragraph(fill_head, h2))
-            self.instruction_list.append(Paragraph(fill_txt, normal))
-            self.instruction_list.append(Spacer(0, border_pad))
-            self.instruction_list.append(Paragraph(warn_icon_graf, normal))
-            self.instruction_list.append(Paragraph(fill_warn_txt, warn_text))
-            self.instruction_list.append(Spacer(0, border_pad * 3))
-            self.instruction_list.append(Paragraph(image2_graf, normal))
-            self.instruction_list.append(Paragraph(write_in_head, h2))
-            self.instruction_list.append(Paragraph(write_in_text, normal))
+            self.instruction_list = [
+                (Paragraph(instruct_head, h1)),
+                (Spacer(0, border_pad * 2)),
+                (Paragraph(image1_graf, normal)),
+                (Paragraph(fill_head, h2)),
+                (Paragraph(fill_txt, normal)),
+                (Spacer(0, border_pad)),
+                (Paragraph(warn_icon_graf, normal)),
+                (Paragraph(fill_warn_txt, warn_text)),
+                (Spacer(0, border_pad * 3)),
+                (Paragraph(image2_graf, normal)),
+                (Paragraph(write_in_head, h2)),
+                (Paragraph(write_in_text, normal)),
+            ]
 
         # define our custom styles
-        define_custom_style(
+        PageLayout.define_custom_style(
             h1, dark, border_pad, font_size + 2, white, font_bold, head_lead
         )
-        define_custom_style(
+        PageLayout.define_custom_style(
             h2, light, border_pad, font_size, black, font_bold, normal_lead + 2
         )
-        define_custom_style(
+        PageLayout.define_custom_style(
             normal, light, border_pad, font_size, black, font_normal, normal_lead
         )
-        define_custom_style(
+        PageLayout.define_custom_style(
             warn_text, light, border_pad, font_size, dark, font_bold, normal_lead
         )
         # build the list, an attribute of the Instructions object

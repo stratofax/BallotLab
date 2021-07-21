@@ -20,33 +20,6 @@ class Instructions:
     # may be read from a settings file later?
     def __init__(self):
         self.instruction_list = []
-        # define styles
-        # set up the page layout settings
-
-        # fill colors
-        dark = PageLayout.dark
-        light = PageLayout.light
-        white = PageLayout.white
-        black = PageLayout.black
-
-        # font family info
-        font_normal = PageLayout.font_normal
-        font_bold = PageLayout.font_bold
-        font_size = PageLayout.font_size
-        normal_lead = PageLayout.normal_lead
-        head_lead = PageLayout.head_lead
-        border_pad = PageLayout.border_pad
-
-        # image dimensions
-        col_width = PageLayout.col_width
-        image_width = (col_width * inch) - (border_pad * 2)
-
-        # start with the sample styles
-        styles = getSampleStyleSheet()
-        normal = styles["Normal"]
-        warn_text = styles["BodyText"]
-        h1 = styles["Heading1"]
-        h2 = styles["Heading2"]
 
         def build_instruction_list():
             """
@@ -95,34 +68,82 @@ class Instructions:
             warn_width = 0.25 * inch
             warn_icon = EmbeddedImage("warn_cyan.png", warn_width)
             warn_icon_graf = warn_icon.embed_text
+            spacing = border_pad / 3
 
             self.instruction_list = [
                 (Paragraph(instruct_head, h1)),
-                (Spacer(0, border_pad / 2)),
+                (Spacer(0, spacing)),
                 (Paragraph(fill_head, h2)),
-                (Paragraph(image1_graf, normal)),
+                (Paragraph(image1_graf, img_graf)),
                 (Paragraph(fill_txt, normal)),
-                (Spacer(0, border_pad)),
+                (Spacer(0, spacing)),
                 (Paragraph(warn_icon_graf, normal)),
                 (Paragraph(fill_warn_txt, warn_text)),
-                (Spacer(0, border_pad)),
+                (Spacer(0, spacing)),
                 (Paragraph(write_in_head, h2)),
-                (Paragraph(image2_graf, normal)),
+                (Paragraph(image2_graf, img_graf)),
                 (Paragraph(write_in_text, normal)),
             ]
+
+        # define styles
+        # set up the page layout settings
+
+        # fill colors
+        dark = PageLayout.dark
+        light = PageLayout.light
+        white = PageLayout.white
+        black = PageLayout.black
+
+        # font family info
+        font_normal = PageLayout.font_normal
+        font_bold = PageLayout.font_bold
+        font_size = PageLayout.font_size
+        normal_lead = PageLayout.normal_lead
+        head_lead = PageLayout.head_lead
+        border_pad = PageLayout.border_pad
+        space_before = PageLayout.space_before
+        no_space = 0
+
+        # image dimensions
+        col_width = PageLayout.col_width
+        image_width = (col_width * inch) - (border_pad * 2)
+
+        # start with the sample styles
+        styles = getSampleStyleSheet()
+        normal = styles["Normal"]
+        warn_text = styles["BodyText"]
+        h1 = styles["Heading1"]
+        h2 = styles["Heading2"]
+        img_graf = styles["Italic"]
 
         # define our custom styles
         PageLayout.define_custom_style(
             h1, dark, border_pad, font_size + 2, white, font_bold, head_lead
         )
         PageLayout.define_custom_style(
-            h2, light, border_pad, font_size, black, font_bold, normal_lead
+            h2,
+            light,
+            border_pad,
+            font_size,
+            black,
+            font_bold,
+            head_lead,
         )
         PageLayout.define_custom_style(
             normal, light, border_pad, font_size, black, font_normal, normal_lead
         )
         PageLayout.define_custom_style(
             warn_text, light, border_pad, font_size, dark, font_bold, normal_lead
+        )
+        PageLayout.define_custom_style(
+            img_graf,
+            light,
+            border_pad,
+            font_size,
+            black,
+            font_normal,
+            normal_lead,
+            no_space,
         )
         # build the list, an attribute of the Instructions object
         build_instruction_list()

@@ -7,9 +7,9 @@
 class PageLayout:
     # use floats for these values
     font_family = "Helvetica"
-    margin = 0.75
+    margin = 0.5
     col_width = 2.25
-    col_height = 8.75
+    col_height = 9
     col_space = 0.25
 
     # font family info
@@ -19,6 +19,8 @@ class PageLayout:
     normal_lead = 15
     head_lead = 20
     border_pad = 8
+    space_before = 12
+    space_after = 6
 
     # define CMYKColor values
     # Use floats! (0 - 1) Didn't work with values 0 - 100
@@ -28,6 +30,7 @@ class PageLayout:
     light = (0.1, 0, 0, 0)
     white = (0, 0, 0, 0)
     black = (0, 0, 0, 1)
+    grey = (0, 0, 0, 0.15)
 
     def define_custom_style(
         style,
@@ -37,6 +40,8 @@ class PageLayout:
         txt_color=black,
         font_n=font_normal,
         line_space=font_size + 1,
+        sp_before=space_before,
+        sp_after=space_after,
     ):
         style.backColor = bg_color
         style.borderColor = bg_color
@@ -45,6 +50,8 @@ class PageLayout:
         style.textColor = txt_color
         style.fontName = font_n
         style.leading = line_space
+        style.spaceBefore = sp_before
+        style.spaceAfter = sp_after
 
 
 if __name__ == "__main__":

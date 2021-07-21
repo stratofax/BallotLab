@@ -8,7 +8,7 @@ from reportlab.lib.pagesizes import letter
 from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.lib.units import inch
 from reportlab.pdfgen.canvas import Canvas
-from reportlab.platypus import Paragraph, Frame, Table, TableStyle
+from reportlab.platypus import Paragraph, Frame
 from datetime import datetime
 
 

@@ -8,8 +8,10 @@ from reportlab.lib import utils
 
 
 class EmbeddedImage:
-    """EmbeddedImage creates a text string with
-    markup to add to a Paragraph flowable"""
+    """
+    EmbeddedImage creates a text string with
+    markup to add to a Paragraph flowable
+    """
 
     def __init__(self, image_name, new_width=240) -> None:
         self.image_name = image_name
@@ -27,8 +29,9 @@ class EmbeddedImage:
         # resize based on the new width
         self.new_height = round(new_width * aspect)
         self.embed_text = (
-            '<para leading="{}" spaceBefore="0" spaceAfter="16"><br />'
-            '<img src="{}" width="{}" height="{} "'
+            '<para leading="{}" spaceBefore="0" '
+            'spaceAfter="16"><br />'
+            '<img src="{}" width="{}" height="{}" '
             'valign="middle"/></para>'.format(
                 round(self.new_height / 2),
                 self.image_full_path,

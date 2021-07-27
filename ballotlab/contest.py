@@ -16,7 +16,6 @@ class Contest:
     """
 
     def __init__(self):
-        # define styles
         # set up the page layout settings
         def build_contest_table():
             """
@@ -38,6 +37,7 @@ class Contest:
                 ],
             )
 
+        # define styles
         # fill colors
         dark = PageLayout.dark
         light = PageLayout.light

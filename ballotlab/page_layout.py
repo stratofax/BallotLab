@@ -32,6 +32,7 @@ class PageLayout:
     black = (0, 0, 0, 1)
     grey = (0, 0, 0, 0.15)
 
+    # TODO: Rewrite with *args, **kwargs?
     def define_custom_style(
         style,
         bg_color,

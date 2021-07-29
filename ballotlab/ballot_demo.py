@@ -37,8 +37,9 @@ def ballot_demo():
 
     # add a ballot contest to the second frame (colomn)
     contest_1 = Contest()
+    contest_header = contest_1.contest_header
     contest_table = contest_1.contest_table
-    mid_column = [contest_table]
+    mid_column = [contest_header, contest_table]
     # mid_column.append(Paragraph(contest_instruct, normal))
 
     right_column = [Paragraph("Contest #2", h1)]

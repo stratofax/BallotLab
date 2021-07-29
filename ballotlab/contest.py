@@ -97,17 +97,20 @@ class Contest:
                     ("LINEABOVE", (0, 0), (0, 0), 3, black),
                     ("LINEBEFORE", (0, 0), (0, -1), 1, black),
                     ("LINEAFTER", (0, 0), (0, -1), 1, white),
+                    ("VALIGN", (0, 0), (-1, -1), "TOP"),
                 ],
             )
             self.contest_table = []
             build_contest_list(self.contestants, self.contest_list)
             self.contest_table = Table(
-                self.contest_list,
+                data=self.contest_list,
+                colWidths=(oval_width * 2, None),
                 style=[
                     # ("BOX", (0, 0), (-1, -1), 1, black),
                     ("LINEBEFORE", (0, 0), (0, -1), 1, black),
                     ("LINEAFTER", (0, 0), (0, -1), 1, white),
                     ("LINEBELOW", (0, -1), (-1, -1), 1, black),
+                    ("VALIGN", (0, 0), (-1, -1), "TOP"),
                 ],
             )
 

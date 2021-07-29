@@ -17,23 +17,53 @@ class Contest:
 
     def __init__(self):
         # set up the page layout settings
+        self.contest_list = []
+        self.contestants = []
+        self.contest_title = "President and Vice-President of the United States"
+        self.contest_instruct = "Vote for 1 pair"
+
+        def get_contest():
+            self.contestants = [
+                ("Joseph Barchi and Joseph Hallaren", "Blue"),
+                ("Adam Cramer and Greg Vuocolo", "Yellow"),
+                ("Daniel Court and Amy Blumhard", "Purple"),
+                ("Alvin Boone and James Lian", "Orange"),
+                ("Austin Hildebrand and James Garritty", "Pink"),
+                ("Martin Patterson and Clay Lariviere", "Gold"),
+                ("Elizabeth Harp and Antoine Jefferson", "Gray"),
+                ("Marzena Pazgier and Welton Phelps", "Brown"),
+            ]
+
+        def build_contest_list(contestants, contestant_party_list):
+            for contestant, party in contestants:
+                # add newlines around " and "
+                if contestant.find(" and "):
+                    contestant = contestant.replace(" and ", "<br />and<br />")
+                contest_line = "<b>{}</b><br />{}".format(contestant, party)
+                contest_cell = [Paragraph(contest_line, normal)]
+                contestant_party_list.append(contest_cell)
+
         def build_contest_table():
             """
             Builds a table with contest header, instructions
             and choices
             """
 
-            contest_title = "President and Vice-President of the United States"
-            contest_instruct = "Vote for 1 pair"
-            row_1 = [Paragraph(contest_title, h1)]
-            row_2 = [Paragraph(contest_instruct, h2)]
-            table_data = [row_1, row_2]
+            get_contest()
+            row_1 = [Paragraph(self.contest_title, h1)]
+            row_2 = [Paragraph(self.contest_instruct, h2)]
+
+            self.contest_list.append(row_1)
+            self.contest_list.append(row_2)
+            build_contest_list(self.contestants, self.contest_list)
+
             self.contest_table = Table(
-                table_data,
+                self.contest_list,
                 style=[
                     ("LINEABOVE", (0, 0), (0, 0), 3, black),
                     ("BOX", (0, 0), (-1, -1), 1, black),
                     ("LINEAFTER", (0, 0), (0, -1), 1, white),
+                    ("LINEBELOW", (-1, -1), (-1, -1), 1, black),
                 ],
             )
 

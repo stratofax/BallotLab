@@ -8,24 +8,29 @@
 from reportlab.graphics.charts.linecharts import HorizontalLineChart
 from reportlab.graphics.shapes import Drawing, _DrawingEditorMixin
 from reportlab.graphics.charts.barcharts import VerticalBarChart
+from reportlab.graphics.shapes import Ellipse
+from reportlab.lib.colors import white, black
 
 
-class TableBarChart(_DrawingEditorMixin, Drawing):
+class SelectionOval(_DrawingEditorMixin, Drawing):
     def __init__(self, width=400, height=200, *args, **kw):
         Drawing.__init__(self, width, height, *args, **kw)
         self.width = 136
         self.height = 140
-        self._add(self, VerticalBarChart(), name="chart", validate=None, desc=None)
-        self.chart.y = 20
-        self.chart.width = self.width - 21
-        self.chart.height = self.height - 24
-        self.chart.categoryAxis.categoryNames = ["Spring", "Summer", "Autumn", "Winter"]
-        self.chart.categoryAxis.labels.fontSize = 7
+        oval_y = self.height / 2
+        self._add(
+            self, Ellipse(21, oval_y, 20, 10), name="oval", validate=None, desc=None
+        )
+        self.oval.fillColor = white
+        self.oval.strokeColor = black
+        self.oval.strokeWidth = 1
+        # self.oval.y = 20
+        # self.oval.width = self.width - 21
+        # self.oval.height = self.height - 27
 
 
 def main():
     from reportlab.lib.units import inch
-    from reportlab.platypus.flowables import Image
     from reportlab.platypus.paragraph import Paragraph
     from reportlab.platypus.doctemplate import SimpleDocTemplate
     from reportlab.lib.styles import getSampleStyleSheet
@@ -53,9 +58,11 @@ def main():
     #     "<para align=center spaceb=3>The <b>ReportLab Left <font color=red>Logo</font></b> Image</para>",
     #     styleSheet["BodyText"],
     # )
-    B = TableBarChart()
+
+    # B = TableBarChart()
+    SO = SelectionOval()
     BP = Paragraph(
-        "<para align=center spaceb=3>A bar chart in a cell.</para>",
+        "<para align=center spaceb=3>A bar oval in a cell.</para>",
         styleSheet["BodyText"],
     )
 
@@ -70,11 +77,10 @@ def main():
             ),
             "D",
         ],
-        ["00", "01", "02", [B, BP], "04"],
-        ["10", "11", "12", [B, BP], "14"],
+        ["10", "11", "12", [SO, BP], "14"],
         ["20", "21", "22", "23", "24"],
         ["30", "31", "32", "33", "34"],
-        ["40", "41", "42", [B, BP], "44"],
+        ["40", "41", "42", [SO, BP], "44"],
     ]
 
     t = Table(
@@ -99,7 +105,7 @@ def main():
     )
 
     story.append(t)
-    SimpleDocTemplate("table-bar-chart.pdf", showBoundary=1).build(story)
+    SimpleDocTemplate("table-bar-oval.pdf", showBoundary=1).build(story)
 
 
 if __name__ == "__main__":

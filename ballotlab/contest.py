@@ -90,7 +90,6 @@ class Contest:
             self.contest_table = Table(
                 data=self.contest_list,
                 colWidths=(oval_width * 3, None),
-                cornerRadii=(-1, -1, -1, -1),
                 style=[
                     # draw lines below each contestant
                     ("LINEBELOW", (1, 2), (1, -1), 1, grey),
@@ -106,6 +105,9 @@ class Contest:
                     ("SPAN", (0, 1), (1, 1)),
                     # ("FONTSIZE", (1, 2), (-1, -1), 48),
                     ("TOPPADDING", (0, 2), (-1, -1), 4),
+                    # pad the first cell
+                    ("BOTTOMPADDING", (0, 0), (0, 1), 8),
+                    # pad below each contestant
                     ("BOTTOMPADDING", (0, 2), (-1, -1), 16),
                 ],
             )

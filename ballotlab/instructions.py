@@ -4,7 +4,7 @@
 
 from page_layout import PageLayout
 from images import EmbeddedImage
-from reportlab.platypus.flowables import Spacer
+from reportlab.platypus.flowables import CondPageBreak, PageBreak, Spacer
 from reportlab.platypus import Paragraph
 from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.lib.units import inch
@@ -83,6 +83,14 @@ class Instructions:
                 (Paragraph(write_in_head, h2)),
                 (Paragraph(image2_graf, img_graf)),
                 (Paragraph(write_in_text, normal)),
+                (Spacer(0, spacing)),
+                (Paragraph(turn_in_head, h2)),
+                (Paragraph(turn_in_text, normal)),
+                (Paragraph(warn_icon_graf, normal)),
+                (Paragraph(turn_in_warn, warn_text)),
+                # Instructions always appear in their own column
+                (CondPageBreak(col_height * inch)),
+                # (PageBreak()),
             ]
 
         # define styles
@@ -102,6 +110,7 @@ class Instructions:
         head_lead = PageLayout.head_lead
         border_pad = PageLayout.border_pad
         space_before = PageLayout.space_before
+        col_height = PageLayout.col_height
         no_space = 0
 
         # image dimensions

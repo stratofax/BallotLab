@@ -57,9 +57,9 @@ class Contest:
                 ("Daniel Court and Amy Blumhard", "Purple"),
                 ("Alvin Boone and James Lian", "Orange"),
                 ("Austin Hildebrand and James Garritty", "Pink"),
-                # ("Martin Patterson and Clay Lariviere", "Gold"),
-                # ("Elizabeth Harp and Antoine Jefferson", "Gray"),
-                # ("Marzena Pazgier and Welton Phelps", "Brown"),
+                ("Martin Patterson and Clay Lariviere", "Gold"),
+                ("Elizabeth Harp and Antoine Jefferson", "Gray"),
+                ("Marzena Pazgier and Welton Phelps", "Brown"),
             ]
 
         def build_contest_list(contestants, contestant_party_list):

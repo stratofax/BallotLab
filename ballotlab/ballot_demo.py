@@ -31,15 +31,15 @@ def ballot_demo():
         pagesize=letter,
         enforceColorSpace="CMYK",
     )
+    # ballot_canvas.setLineCap(0)
     # add voting instructions to the first frame (column)
     inst = Instructions()
     left_column = inst.instruction_list
 
     # add a ballot contest to the second frame (colomn)
     contest_1 = Contest()
-    contest_header = contest_1.contest_header
     contest_table = contest_1.contest_table
-    mid_column = [contest_header, contest_table]
+    mid_column = [contest_table]
     # mid_column.append(Paragraph(contest_instruct, normal))
 
     right_column = [Paragraph("Contest #2", h1)]
@@ -57,6 +57,7 @@ def ballot_demo():
         margin * inch,
         width=c_width * inch,
         height=c_height * inch,
+        topPadding=0,
         showBoundary=SHOW_BOUNDARY,
     )
     right_frame = Frame(

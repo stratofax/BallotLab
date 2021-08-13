@@ -7,13 +7,14 @@ from datetime import datetime
 from reportlab.platypus import (
     BaseDocTemplate,
     Frame,
-    Paragraph,
-    NextPageTemplate,
-    PageBreak,
+    # Paragraph,
+    # NextPageTemplate,
+    # PageBreak,
     PageTemplate,
 )
 from reportlab.lib.units import inch
-from reportlab.lib.styles import getSampleStyleSheet
+
+# from reportlab.lib.styles import getSampleStyleSheet
 from contest import Contest
 from instructions import Instructions
 from page_layout import PageLayout
@@ -56,7 +57,7 @@ def build_ballot():
         showBoundary=SHOW_BOUNDARY,
     )
 
-    styles = getSampleStyleSheet()
+    # styles = getSampleStyleSheet()
 
     # add voting instructions
     inst = Instructions()

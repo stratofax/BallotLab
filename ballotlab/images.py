@@ -2,8 +2,9 @@
 # work with images, including embedding images into
 # Paragraph flowables
 
-from utils.files import FileTools
-from reportlab.platypus import Image
+from files import FileTools
+
+# from reportlab.platypus import Image
 from reportlab.lib import utils
 
 

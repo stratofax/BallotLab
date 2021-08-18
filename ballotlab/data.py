@@ -5,8 +5,8 @@ from files import FileTools
 from lxml import objectify
 import json
 
-supported_ext_types = [".xml", ".XML"]
-# supported_ext_types = [".json", ".JSON", ".xml", ".XML"]
+# supported_ext_types = [".xml", ".XML"]
+supported_ext_types = [".json", ".JSON", ".xml", ".XML"]
 # create a string of supported extensions from list
 ext_types_str = " ".join(str(item) for item in supported_ext_types)
 
@@ -35,11 +35,15 @@ class ElectionData:
             msg = "Election data must be one of the following file types: " "{}. Got {}"
             raise RuntimeError(msg.format(ext_types_str, self.ext))
 
-        # read data file into Python objects
+        # read data file into Python objects, use that API
+        # Read XML data into lxml object hierarchy
         if self.ext in [".xml", ".XML"]:
             self.election_rpt = self.parse_xml(self.abs_path_to_data)
+            self.elect_name = self.election_rpt.Election.Name.Text
         elif self.ext in [".json", ".JSON"]:
             self.election_rpt = self.parse_json(self.abs_path_to_data)
+            # TODO: Read Election.Name from JSON dict
+            self.elect_name = "NOT FOUND"
 
         self.print_line("- ", 40)
         # Election contains BallotStyle, Candidate and Contest.
@@ -47,7 +51,6 @@ class ElectionData:
         print(rpt_title)
         self.print_line("=", len(rpt_title))
         print("File: {}".format(self.data_file))
-        self.elect_name = self.election_rpt.Election.Name.Text
         print("Title: {}".format(self.elect_name))
 
         # print("Geopolitical Units:")
@@ -79,9 +82,9 @@ if __name__ == "__main__":
     xml_election = ElectionData("nist_sample_election_report.xml", "assets/data")
     print(xml_election.data_file)
     print(xml_election.abs_path_to_data)
-    print(xml_election.election_rpt)
+    # print(xml_election.election_rpt)
 
     json_election = ElectionData("BallotStudio_16_Edits.JSON", "assets/data/")
     print(json_election.data_file)
     print(json_election.abs_path_to_data)
-    print(json_election.election_rpt)
+    # print(json_election.election_rpt)

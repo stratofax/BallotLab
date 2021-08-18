@@ -5,12 +5,20 @@ from files import FileTools
 from lxml import objectify
 import json
 
-supported_ext_types = [".json", ".JSON", ".xml", ".XML"]
+supported_ext_types = [".xml", ".XML"]
+# supported_ext_types = [".json", ".JSON", ".xml", ".XML"]
 # create a string of supported extensions from list
 ext_types_str = " ".join(str(item) for item in supported_ext_types)
 
 
 class ElectionData:
+    """
+    Open the specified Election Data File (EDF)
+    Read data into Python objects.
+    Read well-formatted json and xml only
+    Raises RuntimeError for bad data
+    """
+
     def __init__(self, data_file, data_dir):
 
         election_file = FileTools(data_file, data_dir)
@@ -27,17 +35,30 @@ class ElectionData:
             msg = "Election data must be one of the following file types: " "{}. Got {}"
             raise RuntimeError(msg.format(ext_types_str, self.ext))
 
+        # read data file into Python objects
         if self.ext in [".xml", ".XML"]:
-            self.election_data = self.parse_xml(self.abs_path_to_data)
+            self.election_rpt = self.parse_xml(self.abs_path_to_data)
         elif self.ext in [".json", ".JSON"]:
-            self.election_data = self.parse_json(self.abs_path_to_data)
+            self.election_rpt = self.parse_json(self.abs_path_to_data)
+
+        self.print_line("- ", 40)
+        # Election contains BallotStyle, Candidate and Contest.
+        rpt_title = "Election Report"
+        print(rpt_title)
+        self.print_line("=", len(rpt_title))
+        print("File: {}".format(self.data_file))
+        self.elect_name = self.election_rpt.Election.Name.Text
+        print("Title: {}".format(self.elect_name))
+
+        # print("Geopolitical Units:")
+        # print(self.election_rpt["GpUnit"])
 
     def parse_xml(self, xml_file):
         """
         parse xml file into Python objects
         """
-        with open(xml_file) as f:
-            xml = f.read()
+        with open(xml_file) as xmlf:
+            xml = xmlf.read()
         return objectify.fromstring(xml)
         # was dump(xml_election.xml)
 
@@ -50,14 +71,17 @@ class ElectionData:
             json_data = json.load(jsf)
         return json_data
 
+    def print_line(self, string="-", count=10):
+        print(string * count)
+
 
 if __name__ == "__main__":
     xml_election = ElectionData("nist_sample_election_report.xml", "assets/data")
     print(xml_election.data_file)
     print(xml_election.abs_path_to_data)
-    print(xml_election.election_data)
+    print(xml_election.election_rpt)
 
     json_election = ElectionData("BallotStudio_16_Edits.JSON", "assets/data/")
     print(json_election.data_file)
     print(json_election.abs_path_to_data)
-    print(json_election.election_data)
+    print(json_election.election_rpt)

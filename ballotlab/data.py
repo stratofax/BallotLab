@@ -82,9 +82,11 @@ if __name__ == "__main__":
     xml_election = ElectionData("nist_sample_election_report.xml", "assets/data")
     print(xml_election.data_file)
     print(xml_election.abs_path_to_data)
+    # this doesn't print out anything
     # print(xml_election.election_rpt)
 
     json_election = ElectionData("BallotStudio_16_Edits.JSON", "assets/data/")
     print(json_election.data_file)
     print(json_election.abs_path_to_data)
+    # print JSON dict
     # print(json_election.election_rpt)

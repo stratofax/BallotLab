@@ -11,6 +11,23 @@ supported_ext_types = [".json", ".JSON", ".xml", ".XML"]
 ext_types_str = " ".join(str(item) for item in supported_ext_types)
 
 
+class DictToObj:
+    """
+    Iterate recursively through dictionary,
+    conver to object to use dot notation
+    """
+
+    def __init__(self, in_dict: dict):
+        assert isinstance(in_dict, dict)
+        for key, val in in_dict.items():
+            if isinstance(val, (list, tuple)):
+                setattr(
+                    self, key, [DictToObj(x) if isinstance(x, dict) else x for x in val]
+                )
+            else:
+                setattr(self, key, DictToObj(val) if isinstance(val, dict) else val)
+
+
 class ElectionData:
     """
     Open the specified Election Data File (EDF)
@@ -42,8 +59,8 @@ class ElectionData:
             self.elect_name = self.election_rpt.Election.Name.Text
         elif self.ext in [".json", ".JSON"]:
             self.election_rpt = self.parse_json(self.abs_path_to_data)
-            # TODO: Read Election.Name from JSON dict
-            self.elect_name = "NOT FOUND"
+            # Read Election data from JSON dict, which is
+            self.elect_name = self.election_rpt.Election.Name
 
         self.print_line("- ", 40)
         # Election contains BallotStyle, Candidate and Contest.
@@ -51,7 +68,7 @@ class ElectionData:
         print(rpt_title)
         self.print_line("=", len(rpt_title))
         print("File: {}".format(self.data_file))
-        print("Title: {}".format(self.elect_name))
+        print("Object election_rpt is {}.".format(type(self.election_rpt)))
 
         # print("Geopolitical Units:")
         # print(self.election_rpt["GpUnit"])
@@ -63,7 +80,6 @@ class ElectionData:
         with open(xml_file) as xmlf:
             xml = xmlf.read()
         return objectify.fromstring(xml)
-        # was dump(xml_election.xml)
 
     def parse_json(self, json_file):
         """
@@ -72,7 +88,7 @@ class ElectionData:
         # read file
         with open(json_file, "r") as jsf:
             json_data = json.load(jsf)
-        return json_data
+        return DictToObj(json_data)
 
     def print_line(self, string="-", count=10):
         print(string * count)
@@ -85,7 +101,7 @@ if __name__ == "__main__":
     # this doesn't print out anything
     # print(xml_election.election_rpt)
 
-    json_election = ElectionData("BallotStudio_16_Edits.JSON", "assets/data/")
+    json_election = ElectionData("NIST_sample.json", "assets/data/")
     print(json_election.data_file)
     print(json_election.abs_path_to_data)
     # print JSON dict

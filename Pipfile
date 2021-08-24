@@ -8,6 +8,7 @@ name = "pypi"
 reportlab = "*"
 pillow = "*"
 lxml = "*"
+xmltodict = "*"
 
 [dev-packages]
 black = "*"

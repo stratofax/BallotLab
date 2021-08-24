@@ -2,30 +2,16 @@
 # read and write structured data
 
 from files import FileTools
-from lxml import objectify
+import xmltodict
 import json
+import pprint
+
 
 # supported_ext_types = [".xml", ".XML"]
-supported_ext_types = [".json", ".JSON", ".xml", ".XML"]
+# supported_ext_types = [".json", ".JSON", ".xml", ".XML"]
+supported_ext_types = [".json", ".JSON"]
 # create a string of supported extensions from list
 ext_types_str = " ".join(str(item) for item in supported_ext_types)
-
-
-class DictToObj:
-    """
-    Iterate recursively through dictionary,
-    conver to object to use dot notation
-    """
-
-    def __init__(self, in_dict: dict):
-        assert isinstance(in_dict, dict)
-        for key, val in in_dict.items():
-            if isinstance(val, (list, tuple)):
-                setattr(
-                    self, key, [DictToObj(x) if isinstance(x, dict) else x for x in val]
-                )
-            else:
-                setattr(self, key, DictToObj(val) if isinstance(val, dict) else val)
 
 
 class ElectionData:
@@ -56,11 +42,11 @@ class ElectionData:
         # Read XML data into lxml object hierarchy
         if self.ext in [".xml", ".XML"]:
             self.election_rpt = self.parse_xml(self.abs_path_to_data)
-            self.elect_name = self.election_rpt.Election.Name.Text
         elif self.ext in [".json", ".JSON"]:
             self.election_rpt = self.parse_json(self.abs_path_to_data)
             # Read Election data from JSON dict, which is
-            self.elect_name = self.election_rpt.Election.Name
+
+        self.elect_name = self.election_rpt["Election"][0]["Name"]
 
         self.print_line("- ", 40)
         # Election contains BallotStyle, Candidate and Contest.
@@ -69,35 +55,35 @@ class ElectionData:
         self.print_line("=", len(rpt_title))
         print("File: {}".format(self.data_file))
         print("Object election_rpt is {}.".format(type(self.election_rpt)))
-
+        pprint.pprint(self.election_rpt)
         # print("Geopolitical Units:")
         # print(self.election_rpt["GpUnit"])
 
     def parse_xml(self, xml_file):
         """
-        parse xml file into Python objects
+        parse xml file into JSON-style dict
         """
         with open(xml_file) as xmlf:
             xml = xmlf.read()
-        return objectify.fromstring(xml)
+        return xmltodict.parse(xml, dict_constructor=dict)
 
     def parse_json(self, json_file):
         """
-        parse json file into Python objects
+        parse json file into dictionary
         """
         # read file
         with open(json_file, "r") as jsf:
             json_data = json.load(jsf)
-        return DictToObj(json_data)
+        return json_data
 
     def print_line(self, string="-", count=10):
         print(string * count)
 
 
 if __name__ == "__main__":
-    xml_election = ElectionData("nist_sample_election_report.xml", "assets/data")
-    print(xml_election.data_file)
-    print(xml_election.abs_path_to_data)
+    # xml_election = ElectionData("nist_sample_election_report.xml", "assets/data")
+    # print(xml_election.data_file)
+    # print(xml_election.abs_path_to_data)
     # this doesn't print out anything
     # print(xml_election.election_rpt)
 

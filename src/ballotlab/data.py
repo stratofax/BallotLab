@@ -1,10 +1,12 @@
 # data.py
 # read and write structured data
 
+# from posixpath import relpath
 from files import FileTools
 import xmltodict
 import json
-import pprint
+
+# import pprint
 
 
 # supported_ext_types = [".xml", ".XML"]
@@ -45,18 +47,25 @@ class ElectionData:
         elif self.ext in [".json", ".JSON"]:
             self.election_rpt = self.parse_json(self.abs_path_to_data)
             # Read Election data from JSON dict, which is
+            self.elect_name = self.election_rpt["Election"][0]["Name"]
+            self.start_date = self.election_rpt["Election"][0]["StartDate"]
+            self.end_date = self.election_rpt["Election"][0]["EndDate"]
+            self.elect_type = self.election_rpt["Election"][0]["Type"]
 
-        self.elect_name = self.election_rpt["Election"][0]["Name"]
-
-        self.print_line("- ", 40)
+        # self.text_rpt = self.print_line("- ", 40)
         # Election contains BallotStyle, Candidate and Contest.
-        rpt_title = "Election Report"
-        print(rpt_title)
-        self.print_line("=", len(rpt_title))
-        print("File: {}".format(self.data_file))
-        print("Object election_rpt is {}.".format(type(self.election_rpt)))
-        pprint.pprint(self.election_rpt)
+        rpt_title = "Election Report\n"
+        self.text_rpt = rpt_title
+        # self.text_rpt(self.print_line("=", len(rpt_title)))
+        self.text_rpt += "File: {}\n".format(self.data_file)
+        # self.text_rpt += "Object election_rpt is {}.\n".format(type(self.election_rpt))
+        # pprint.pprint(self.election_rpt)
+        self.text_rpt += "Election name: {}\n".format(self.elect_name)
+        self.text_rpt += "Election type: {}\n".format(self.elect_type)
+        self.text_rpt += "Start date: {}\n".format(self.start_date)
+        self.text_rpt += "End date: {}\n".format(self.end_date)
         # print("Geopolitical Units:")
+        print(self.text_rpt)
         # print(self.election_rpt["GpUnit"])
 
     def parse_xml(self, xml_file):
@@ -92,3 +101,7 @@ if __name__ == "__main__":
     print(json_election.abs_path_to_data)
     # print JSON dict
     # print(json_election.election_rpt)
+
+    json_election = ElectionData("BallotStudio_16_Edits.JSON", "assets/data/")
+    print(json_election.data_file)
+    print(json_election.abs_path_to_data)

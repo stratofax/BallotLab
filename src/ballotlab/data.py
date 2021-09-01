@@ -5,11 +5,16 @@
 from files import FileTools
 import xmltodict
 import json
-from jsonschema import validate
+import jsonschema
 
 # import pprint
 
-JSON_ERROR = 100
+# error codes
+## JSON errors
+### JSON file isn't formatted correctly (can't be parsed)
+ERR_JSON_FORMAT = 200
+### JSON data didn't validate against the schema
+ERR_JSON_SCHEMA = 201
 
 # supported_ext_types = [".xml", ".XML"]
 # supported_ext_types = [".json", ".JSON", ".xml", ".XML"]
@@ -48,16 +53,17 @@ class ElectionData:
         elif self.ext in [".json", ".JSON"]:
             # let's try to read the file
             self.election_rpt = self.parse_json(self.abs_path_to_data)
-            if self.election_rpt != JSON_ERROR:
-                # test to see if the JSON file contains the data we need
+            if self.election_rpt != ERR_JSON_FORMAT:
+                if self.validate_json(self.election_rpt):
+                    # Read Election data from JSON dict, which is
+                    self.elect_name = self.election_rpt["Election"][0]["Name"]
+                    self.start_date = self.election_rpt["Election"][0]["StartDate"]
+                    self.end_date = self.election_rpt["Election"][0]["EndDate"]
+                    self.elect_type = self.election_rpt["Election"][0]["Type"]
+                else:
+                    print("JSON Schema Error!")
 
-                # Read Election data from JSON dict, which is
-                self.elect_name = self.election_rpt["Election"][0]["Name"]
-                self.start_date = self.election_rpt["Election"][0]["StartDate"]
-                self.end_date = self.election_rpt["Election"][0]["EndDate"]
-                self.elect_type = self.election_rpt["Election"][0]["Type"]
-
-        if self.election_rpt != JSON_ERROR:
+        if self.election_rpt != ERR_JSON_FORMAT:
             rpt_title = "Election Report"
             self.text_rpt = "{}\n".format(rpt_title)
             self.text_rpt += ("=" * len(rpt_title)) + "\n"
@@ -95,14 +101,23 @@ class ElectionData:
             return json_data
         except json.decoder.JSONDecodeError:
             print("JSON file is not well-formed: {}".format(json_file))
-            return JSON_ERROR
+            return ERR_JSON_FORMAT
 
     def validate_json(self, json_data):
-        pass
+        json_schema_file = FileTools(
+            "NIST_V2_election_results_reporting.json", "assets/schema"
+        )
+        json_schema = self.parse_json(json_schema_file.abs_path_to_file)
+        jsonschema.validate(instance=json_data, schema=json_schema)
+        # try:
+        #     jsonschema.validate(instance=json_data, schema=json_schema)
+        # except jsonschema.exceptions.ValidationError as err:
+        #     return ERR_JSON_SCHEMA
+        # return True
 
 
 if __name__ == "__main__":
     # xml_election = ElectionData("nist_sample_election_report.xml", "assets/data")
-    json_election = ElectionData("NIST_sample.json", "assets/data/")
+    # json_election = ElectionData("NIST_sample.json", "assets/data/")
     json_election = ElectionData("BallotStudio_16_Edits.JSON", "assets/data/")
     json_election = ElectionData("JESTONS_PAPARDEV_&_AUG_2021.json", "assets/data/")

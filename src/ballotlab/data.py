@@ -5,8 +5,9 @@
 from files import FileTools
 import xmltodict
 import json
+from jsonschema import validate
 
-import pprint
+# import pprint
 
 JSON_ERROR = 100
 
@@ -41,13 +42,15 @@ class ElectionData:
             msg = "Election data must be one of the following file types: " "{}. Got {}"
             raise RuntimeError(msg.format(ext_types_str, self.ext))
 
-        # read data file into Python objects, use that API
-        # Read XML data into lxml object hierarchy
+        # read data file into Python objects, based on type.
         if self.ext in [".xml", ".XML"]:
             self.election_rpt = self.parse_xml(self.abs_path_to_data)
         elif self.ext in [".json", ".JSON"]:
+            # let's try to read the file
             self.election_rpt = self.parse_json(self.abs_path_to_data)
             if self.election_rpt != JSON_ERROR:
+                # test to see if the JSON file contains the data we need
+
                 # Read Election data from JSON dict, which is
                 self.elect_name = self.election_rpt["Election"][0]["Name"]
                 self.start_date = self.election_rpt["Election"][0]["StartDate"]
@@ -85,7 +88,7 @@ class ElectionData:
         """
         parse json file into dictionary
         """
-        # read file
+        # read JSON file and perform basic JSON validation
         try:
             with open(json_file, "r") as jsf:
                 json_data = json.load(jsf)
@@ -94,8 +97,8 @@ class ElectionData:
             print("JSON file is not well-formed: {}".format(json_file))
             return JSON_ERROR
 
-    def print_line(self, string="-", count=10):
-        print(string * count)
+    def validate_json(self, json_data):
+        pass
 
 
 if __name__ == "__main__":

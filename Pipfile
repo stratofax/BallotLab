@@ -9,6 +9,7 @@ reportlab = "*"
 pillow = "*"
 lxml = "*"
 xmltodict = "*"
+jsonschema = "*"
 
 [dev-packages]
 black = "*"

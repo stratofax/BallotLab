@@ -31,7 +31,7 @@ class ElectionData:
     Raises RuntimeError for bad data
     """
 
-    def __init__(self, data_file, data_dir):
+    def __init__(self, data_file, data_dir, print_rpt=False):
 
         election_file = FileTools(data_file, data_dir)
         if not election_file.file_found:
@@ -54,14 +54,20 @@ class ElectionData:
             # let's try to read the file
             self.election_rpt = self.parse_json(self.abs_path_to_data)
             if self.election_rpt != ERR_JSON_FORMAT:
-                if self.validate_json(self.election_rpt):
-                    # Read Election data from JSON dict, which is
-                    self.elect_name = self.election_rpt["Election"][0]["Name"]
-                    self.start_date = self.election_rpt["Election"][0]["StartDate"]
-                    self.end_date = self.election_rpt["Election"][0]["EndDate"]
-                    self.elect_type = self.election_rpt["Election"][0]["Type"]
-                else:
-                    print("JSON Schema Error!")
+                self.elect_name = self.election_rpt["Election"][0]["Name"]
+                self.start_date = self.election_rpt["Election"][0]["StartDate"]
+                self.end_date = self.election_rpt["Election"][0]["EndDate"]
+                self.elect_type = self.election_rpt["Election"][0]["Type"]
+                self.gpunits = self.election_rpt["GpUnit"]
+                ## Disable schema validation code
+                # if self.validate_json(self.election_rpt):
+                #     # Read Election data from JSON dict, which is
+                #     self.elect_name = self.election_rpt["Election"][0]["Name"]
+                #     self.start_date = self.election_rpt["Election"][0]["StartDate"]
+                #     self.end_date = self.election_rpt["Election"][0]["EndDate"]
+                #     self.elect_type = self.election_rpt["Election"][0]["Type"]
+                # else:
+                #     print("JSON Schema Error!")
 
         if self.election_rpt != ERR_JSON_FORMAT:
             rpt_title = "Election Report"
@@ -76,10 +82,12 @@ class ElectionData:
             self.text_rpt += "Election type: {}\n".format(self.elect_type)
             self.text_rpt += "Start date: {}\n".format(self.start_date)
             self.text_rpt += "End date: {}\n".format(self.end_date)
+            self.text_rpt += "GPUnits: \n{}\n".format(self.gpunits)
         else:
             self.text_rpt = "Report can't be generated. Error code:"
 
-        print(self.text_rpt)
+        if print_rpt:
+            print(self.text_rpt)
         # pprint.pprint(self.election_rpt)
 
     def parse_xml(self, xml_file):
@@ -119,5 +127,9 @@ class ElectionData:
 if __name__ == "__main__":
     # xml_election = ElectionData("nist_sample_election_report.xml", "assets/data")
     # json_election = ElectionData("NIST_sample.json", "assets/data/")
-    json_election = ElectionData("BallotStudio_16_Edits.JSON", "assets/data/")
-    json_election = ElectionData("JESTONS_PAPARDEV_&_AUG_2021.json", "assets/data/")
+    json_election = ElectionData(
+        "BallotStudio_16_Edits.JSON", "assets/data/", print_rpt=True
+    )
+    json_election = ElectionData(
+        "JESTONS_PAPARDEV_&_AUG_2021.json", "assets/data/", print_rpt=False
+    )

@@ -10,10 +10,10 @@ TL;DR: here's a summary listing of the bash commands:
 
 ```bash
 cd [vour/repo/directory]
-# use pipx to install ensurepaht and pipenv
-python3 -m pip install --user pipx
-python3 -m pipx ensurepath
-pipx install pipenv
+# install pipenv (system-wide)
+pip install pipenv
+# set up pipenv with python 3.9
+pipenv install --python 3.9
 # install development tools
 pipenv install isort --dev
 # currently, black is pre-release so use the --pre flag

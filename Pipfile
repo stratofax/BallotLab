@@ -10,6 +10,7 @@ pillow = "*"
 lxml = "*"
 xmltodict = "*"
 jsonschema = "*"
+datamodel-code-generator = "*"
 
 [dev-packages]
 black = "*"

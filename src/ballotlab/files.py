@@ -1,4 +1,7 @@
 # Get properties of the file system
+# TODO: Revactor with pathlib to normalize paths across operating systems
+# [PEP 428 -- The pathlib module -- object-oriented filesystem paths | Python.org](https://www.python.org/dev/peps/pep-0428/)
+
 from genericpath import isfile
 from inspect import getsourcefile
 import os

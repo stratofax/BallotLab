@@ -1,6 +1,6 @@
 # BallotLab
 
-A Pythonic repo of PDF-related code to lay out EAC-compliant ballots, part of the OSET BallotStudio project. I'm testing out some ideas here, so this isn't considered production code.
+A Pythonic repo of PDF-related code to lay out EAC-compliant ballots, part of the OSET BallotStudio project. This project has been moved to [TrustTheVote-Project/BallotLab: Encapsulated software for generating ballots from NIST 1500-100 election definition datasets.](https://github.com/TrustTheVote-Project/BallotLab), and is archived here for historical purposes. Please go to [TrustTheVote-Project/BallotLab](https://github.com/TrustTheVote-Project/BallotLab) if you'd like to contribute.
 
 ## Getting Started
 
